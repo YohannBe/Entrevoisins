@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Entrevoisins</string>
+    <string name="tab_neighbour_title">My neighbours</string>
+    <string name="tab_favorites_title">Favorites</string>
+    <string name="activity_new_neighbour">New neighbour</string>
+    <string name="activity_profile_neighbour">Profile neighbour</string>
+    <string name="profile_picture_contentdescription">profile picture</string>
+    <string name="arrow_back_contentDescription">arrow back</string>
+    <string name="about_me_title">A propos de moi</string>
+    <string name="removed_toast">The contact is removed from your favorite list</string>
+    <string name="added_toast">The contact is added to your favorite list</string>
+    <string name="deleted_contact_toast">The contact has been deleted</string>
+</resources>

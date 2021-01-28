@@ -25,8 +25,13 @@ public class Neighbour {
     /** About me */
     private String aboutMe;
 
-    /** About me */
+    /** facebook address */
     private String facebookAddress;
+
+    /** neighbour is or is not in the favorite list*/
+    private boolean favorite = false;
+
+
 
     /**
      * Constructor
@@ -98,6 +103,14 @@ public class Neighbour {
 
     public void setAboutMe(String aboutMe) {
         this.aboutMe = aboutMe;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     @Override

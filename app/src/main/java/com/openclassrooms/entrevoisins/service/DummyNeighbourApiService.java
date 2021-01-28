@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**

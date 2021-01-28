@@ -107,6 +107,7 @@ public class NeighbourProfile extends AppCompatActivity {
         return false;
     }
 
+
     private Neighbour getDataBack() {
         Intent neighbourIntent = getIntent();
 

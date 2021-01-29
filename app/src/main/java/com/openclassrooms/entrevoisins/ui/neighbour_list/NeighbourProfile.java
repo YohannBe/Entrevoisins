@@ -92,7 +92,7 @@ public class NeighbourProfile extends AppCompatActivity {
                 } else {
                     EventBus.getDefault().post(new FavoriteEvent(neighbourProfile, false));
                     if (!check(neighbourProfile))
-                        Toast.makeText(NeighbourProfile.this, R.string.removed_toast, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NeighbourProfile.this, R.string.removed_toast , Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -143,10 +143,12 @@ public class NeighbourProfile extends AppCompatActivity {
     @Subscribe
     public void onFavoriteEvent(FavoriteEvent event) {
         if (event.action){
+            event.neighbour.setFavorite(true);
             mApiService.addNeighbourToFavorite(event.neighbour);
             favoriteButton.setBackgroundTintList((ColorStateList.valueOf(666666)));
         }
         else{
+            event.neighbour.setFavorite(false);
             mApiService.deleteFromFavoriteList(event.neighbour);
             favoriteButton.setBackgroundTintList(null);
         }

@@ -17,7 +17,6 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.FavoriteEvent;
-import com.openclassrooms.entrevoisins.events.SeeProfileEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
@@ -102,28 +101,6 @@ public class NeighbourFragment extends Fragment {
         mApiService.deleteNeighbour(event.neighbour);
         initList();
         Toast.makeText(getContext(), R.string.deleted_contact_toast, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Fired if the user clicks on a name textview
-     * @param event
-     */
-    @Subscribe
-    public void onSeeProfileNeighbour(SeeProfileEvent event) {
-        Intent toProfileIntent = new Intent(getContext(), NeighbourProfile.class);
-        initIntent(toProfileIntent, event);
-        startActivity(toProfileIntent);
-    }
-
-    private void initIntent(Intent toProfileIntent, SeeProfileEvent event) {
-        toProfileIntent.putExtra(neighbourNameProfile, event.neighbour.getName());
-        toProfileIntent.putExtra(neighbourAvatarProfile, event.neighbour.getAvatarUrl());
-        toProfileIntent.putExtra(neighbourPhoneProfile, event.neighbour.getPhoneNumber());
-        toProfileIntent.putExtra(neighbourAboutMeProfile, event.neighbour.getAboutMe());
-        toProfileIntent.putExtra(neighbourAddressProfile, event.neighbour.getAddress());
-        toProfileIntent.putExtra(neighbourFacebookProfile, "https://www.facebook.com/"+event.neighbour.getName()+"/");
-        toProfileIntent.putExtra(neighbourIDProfile, event.neighbour.getId());
-
     }
 
 

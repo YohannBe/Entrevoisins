@@ -16,7 +16,6 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.FavoriteEvent;
-import com.openclassrooms.entrevoisins.events.SeeProfileEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
@@ -81,15 +80,6 @@ public class NeighbourFavoriteFragment extends Fragment {
         initList();
     }
 
-    private void initIntent(Intent toProfileIntent, SeeProfileEvent event) {
-        toProfileIntent.putExtra(neighbourNameProfile, event.neighbour.getName());
-        toProfileIntent.putExtra(neighbourAvatarProfile, event.neighbour.getAvatarUrl());
-        toProfileIntent.putExtra(neighbourPhoneProfile, event.neighbour.getPhoneNumber());
-        toProfileIntent.putExtra(neighbourAboutMeProfile, event.neighbour.getAboutMe());
-        toProfileIntent.putExtra(neighbourAddressProfile, event.neighbour.getAddress());
-        toProfileIntent.putExtra(neighbourFacebookProfile, "https://www.facebook.com/" + event.neighbour.getName() + "/");
-        toProfileIntent.putExtra(neighbourIDProfile, event.neighbour.getId());
-    }
 
     /**
      * Fired if the user clicks on a delete button

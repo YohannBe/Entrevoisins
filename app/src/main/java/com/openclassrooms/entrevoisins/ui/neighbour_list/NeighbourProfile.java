@@ -70,7 +70,7 @@ public class NeighbourProfile extends AppCompatActivity {
     private void initWidget() {
         mApiService = DI.getNeighbourApiService();
 
-        neighbourProfile = getDataBack();
+        getDataBack();
 
         if (check(neighbourProfile))
             favoriteButton.setBackgroundTintList((ColorStateList.valueOf(666666)));
@@ -108,21 +108,11 @@ public class NeighbourProfile extends AppCompatActivity {
     }
 
 
-    private Neighbour getDataBack() {
+    private void getDataBack() {
         Intent neighbourIntent = getIntent();
-
-        String mName = neighbourIntent.getStringExtra(neighbourNameProfile);
-        String mAddress = neighbourIntent.getStringExtra(neighbourAddressProfile);
-        String mFacebook = neighbourIntent.getStringExtra(neighbourFacebookProfile);
-        String mPhone = neighbourIntent.getStringExtra(neighbourPhoneProfile);
-        String mAboutMe = neighbourIntent.getStringExtra(neighbourAboutMeProfile);
-        String mAvatar = neighbourIntent.getStringExtra(neighbourAvatarProfile);
-        long mId = neighbourIntent.getLongExtra(neighbourIDProfile, 0);
-
-        initText(mName, mAddress, mFacebook, mPhone, mAboutMe, mAvatar);
-
-        return new Neighbour(mId, mName, mAvatar, mAddress, mPhone, mAboutMe);
-
+        neighbourProfile = (Neighbour) neighbourIntent.getSerializableExtra("NEIGHBOURPROFILE");
+        initText(neighbourProfile.getName(), neighbourProfile.getAddress(), neighbourProfile.getFacebookAddress(), neighbourProfile.getPhoneNumber(),
+                neighbourProfile.getAboutMe(), neighbourProfile.getAvatarUrl());
     }
 
     private void initText(String mName, String mAddress, String mFacebook, String mPhone, String mAboutMe, String mAvatar) {

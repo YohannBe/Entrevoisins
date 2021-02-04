@@ -35,13 +35,16 @@
                 android:id="@+id/tabItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_neighbour_title" />
+                android:text="@string/tab_neighbour_title"
+                android:contentDescription="@string/myfirstitem"
+                />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_favorites_title" />
+                android:text="@string/tab_favorites_title"
+                android:contentDescription="@string/myseconditem"/>
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>

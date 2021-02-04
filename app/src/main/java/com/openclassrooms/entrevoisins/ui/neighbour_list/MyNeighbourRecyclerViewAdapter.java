@@ -1,5 +1,6 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
-import com.openclassrooms.entrevoisins.events.SeeProfileEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,9 +23,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.app.PendingIntent.getActivity;
+
 public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
 
     private final List<Neighbour> mNeighbours;
+
 
     public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
         mNeighbours = items;
@@ -57,10 +60,16 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new SeeProfileEvent(neighbour));
+                Intent toProfileIntent = new Intent(holder.itemView.getContext(), NeighbourProfile.class);
+                Neighbour neighbourProfile = mNeighbours.get(holder.getAdapterPosition());
+                neighbourProfile.setFacebookAddress("https://www.facebook.com/" + neighbourProfile.getName()+"/");
+                toProfileIntent.putExtra("NEIGHBOURPROFILE", neighbourProfile);
+                holder.itemView.getContext().startActivity(toProfileIntent);
             }
         });
     }
+
+
 
     @Override
     public int getItemCount() {

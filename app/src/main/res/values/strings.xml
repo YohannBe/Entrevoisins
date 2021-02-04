@@ -10,4 +10,6 @@
     <string name="removed_toast">The contact is removed from your favorite list</string>
     <string name="added_toast">The contact is added to your favorite list</string>
     <string name="deleted_contact_toast">The contact has been deleted</string>
+    <string name="myseconditem">mySecondItem</string>
+    <string name="myfirstitem">myFirstItem</string>
 </resources>

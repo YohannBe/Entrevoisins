@@ -100,7 +100,7 @@ public class AddNeighbourActivity extends AppCompatActivity {
             mApiService.createNeighbour(neighbour);
             finish();
     }
-    
+
     /**
      * Generate a random image. Useful to mock image picker
      *

@@ -88,9 +88,7 @@ public class AddNeighbourActivity extends AppCompatActivity {
 
     @OnClick(R.id.create)
     void addNeighbour() {
-        String phoneCheck = phoneInput.getEditText().getText().toString();
 
-        if ((phoneCheck.length() == 10 || phoneCheck.length() == 11) && checkNumberPhone(phoneCheck)) {
             Neighbour neighbour = new Neighbour(
                     System.currentTimeMillis(),
                     nameInput.getEditText().getText().toString(),
@@ -101,19 +99,8 @@ public class AddNeighbourActivity extends AppCompatActivity {
             );
             mApiService.createNeighbour(neighbour);
             finish();
-        } else
-            Toast.makeText(this, "The phone number format seems to be wrong", Toast.LENGTH_SHORT).show();
-
     }
-
-    private boolean checkNumberPhone(String phoneCheck) {
-        for (int i = 0; i < phoneCheck.length(); i++) {
-            if (Integer.valueOf(phoneCheck.charAt(i)) < 0 || Integer.valueOf(phoneCheck.charAt(i)) > 9)
-                return false;
-        }
-        return true;
-    }
-
+    
     /**
      * Generate a random image. Useful to mock image picker
      *

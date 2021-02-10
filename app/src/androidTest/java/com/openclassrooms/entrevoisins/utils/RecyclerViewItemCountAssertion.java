@@ -20,7 +20,7 @@ public class RecyclerViewItemCountAssertion implements ViewAssertion {
             return new RecyclerViewItemCountAssertion(matcher);
         }
 
-        private RecyclerViewItemCountAssertion(Matcher<Integer> matcher) {
+        public RecyclerViewItemCountAssertion(Matcher<Integer> matcher) {
             this.matcher = matcher;
         }
 
@@ -29,9 +29,14 @@ public class RecyclerViewItemCountAssertion implements ViewAssertion {
             if (noViewFoundException != null) {
                 throw noViewFoundException;
             }
-
             RecyclerView recyclerView = (RecyclerView) view;
             RecyclerView.Adapter adapter = recyclerView.getAdapter();
             Assert.assertThat(adapter.getItemCount(), matcher);
+        }
+
+        public static int getItemCount(View view) {
+        RecyclerView recyclerView = (RecyclerView) view;
+        RecyclerView.Adapter adapter = recyclerView.getAdapter();
+        return adapter.getItemCount();
         }
     }

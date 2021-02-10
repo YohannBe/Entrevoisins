@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
-import com.openclassrooms.entrevoisins.events.FavoriteEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
@@ -31,13 +30,6 @@ public class NeighbourFragment extends Fragment {
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
-    protected static String neighbourNameProfile = "NEIGHBOURNAME";
-    protected static String neighbourAddressProfile = "NEIGHBOURADRESS";
-    protected static String neighbourPhoneProfile = "NEIGHBOURPHONE";
-    protected static String neighbourFacebookProfile = "NEIGHBOURFACEBOOK";
-    protected static String neighbourAboutMeProfile = "NEIGHBOURABOUTME";
-    protected static String neighbourAvatarProfile = "NEIGHBOURAVATAR";
-    protected static String neighbourIDProfile = "NEIGHBOURID";
 
 
     /**
@@ -71,7 +63,7 @@ public class NeighbourFragment extends Fragment {
      */
     private void initList() {
         mNeighbours = mApiService.getNeighbours();
-        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
+        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, false));
     }
 
     @Override

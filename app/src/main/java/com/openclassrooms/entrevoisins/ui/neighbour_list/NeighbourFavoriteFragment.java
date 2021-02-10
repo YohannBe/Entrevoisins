@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
-import com.openclassrooms.entrevoisins.events.FavoriteEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
@@ -24,13 +23,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourAboutMeProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourAddressProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourAvatarProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourFacebookProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourIDProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourNameProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourPhoneProfile;
 
 
 public class NeighbourFavoriteFragment extends Fragment {
@@ -71,7 +63,7 @@ public class NeighbourFavoriteFragment extends Fragment {
      */
     private void initList() {
         mNeighbours = mApiService.getNeighboursFavorite();
-        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
+        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, true));
     }
 
     @Override
@@ -80,14 +72,15 @@ public class NeighbourFavoriteFragment extends Fragment {
         initList();
     }
 
-
     /**
      * Fired if the user clicks on a delete button
+     *
      * @param event
      */
     @Subscribe
-    public void onDeleteFavoriteNeighbour(DeleteNeighbourEvent event) {
+    public void onDeleteNeighbour(DeleteNeighbourEvent event) {
         mApiService.deleteNeighbour(event.neighbour);
+        Toast.makeText(getContext(), R.string.deleted_contact_toast, Toast.LENGTH_SHORT).show();
         initList();
     }
 
@@ -102,5 +95,4 @@ public class NeighbourFavoriteFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-
 }

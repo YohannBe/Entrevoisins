@@ -17,20 +17,11 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
-import com.openclassrooms.entrevoisins.events.FavoriteEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourAboutMeProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourAddressProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourAvatarProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourFacebookProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourIDProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourNameProfile;
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment.neighbourPhoneProfile;
+import static com.openclassrooms.entrevoisins.ui.neighbour_list.MyNeighbourRecyclerViewAdapter.favoriteString;
+import static com.openclassrooms.entrevoisins.ui.neighbour_list.MyNeighbourRecyclerViewAdapter.positionString;
 
 public class NeighbourProfile extends AppCompatActivity {
 
@@ -72,7 +63,7 @@ public class NeighbourProfile extends AppCompatActivity {
 
         getDataBack();
 
-        if (check(neighbourProfile))
+        if (neighbourProfile.isFavorite())
             favoriteButton.setBackgroundTintList((ColorStateList.valueOf(666666)));
 
         arrowBack.setOnClickListener(new View.OnClickListener() {
@@ -82,39 +73,53 @@ public class NeighbourProfile extends AppCompatActivity {
             }
         });
 
+        /** check if the profile was already set as favorite, if so
+            - profile is set to false
+            - the ui is updated, the floating button will have no tint
+            - a toast message will inform the user on what happened
+            else
+            - profile is set to true
+            - the ui is updated, the floating button will have no tint
+            - a toast message will inform the user on what happened
+         */
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!check(neighbourProfile)) {
-                    EventBus.getDefault().post(new FavoriteEvent(neighbourProfile, true));
-                    if (check(neighbourProfile))
-                        Toast.makeText(NeighbourProfile.this, R.string.added_toast, Toast.LENGTH_SHORT).show();
+                if (neighbourProfile.isFavorite()) {
+                    neighbourProfile.setFavorite(false);
+                    favoriteButton.setBackgroundTintList(null);
+                    Toast.makeText(NeighbourProfile.this, R.string.removed_toast, Toast.LENGTH_SHORT).show();
                 } else {
-                    EventBus.getDefault().post(new FavoriteEvent(neighbourProfile, false));
-                    if (!check(neighbourProfile))
-                        Toast.makeText(NeighbourProfile.this, R.string.removed_toast , Toast.LENGTH_SHORT).show();
+                    neighbourProfile.setFavorite(true);
+                    favoriteButton.setBackgroundTintList((ColorStateList.valueOf(666666)));
+                    Toast.makeText(NeighbourProfile.this, R.string.added_toast, Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
     }
 
-    private boolean check(Neighbour neighbourProfile) {
-        for (int i = 0; i < mApiService.getNeighboursFavorite().size(); i++) {
-            if (neighbourProfile.getId() == mApiService.getNeighboursFavorite().get(i).getId())
-                return true;
-        }
-        return false;
-    }
-
-
+    /** get the data back from the intent in the recyclerview adapter
+        get back the position in the array
+        get back if the user tried to see the profile from the regular list or from the favorite list with the boolean
+        check if the demand come from the regular list or from the favorite list and depending on the result we will fetch the neighbour from
+        one array or the other
+        set up the facebook address
+        and init the component*/
     private void getDataBack() {
         Intent neighbourIntent = getIntent();
-        neighbourProfile = (Neighbour) neighbourIntent.getSerializableExtra("NEIGHBOURPROFILE");
+        int position = neighbourIntent.getIntExtra(positionString, 0);
+        boolean favorite = neighbourIntent.getBooleanExtra(favoriteString, false);
+        if (favorite)
+            neighbourProfile = mApiService.getNeighboursFavorite().get(position);
+        else
+            neighbourProfile = mApiService.getNeighbours().get(position);
+        neighbourProfile.setFacebookAddress("https://www.facebook.com/" + neighbourProfile.getName() + "/");
         initText(neighbourProfile.getName(), neighbourProfile.getAddress(), neighbourProfile.getFacebookAddress(), neighbourProfile.getPhoneNumber(),
                 neighbourProfile.getAboutMe(), neighbourProfile.getAvatarUrl());
     }
 
+    /** simply initialise the components*/
     private void initText(String mName, String mAddress, String mFacebook, String mPhone, String mAboutMe, String mAvatar) {
         name.setText(mName);
         nameTitle.setText(mName);
@@ -124,38 +129,4 @@ public class NeighbourProfile extends AppCompatActivity {
         aboutMe.setText(mAboutMe);
         Glide.with(this).load(mAvatar).placeholder(R.drawable.ic_account).into(avatar);
     }
-
-    /**
-     * Fired if the user clicks on the floating button
-     *
-     * @param event
-     */
-    @Subscribe
-    public void onFavoriteEvent(FavoriteEvent event) {
-        if (event.action){
-            event.neighbour.setFavorite(true);
-            mApiService.addNeighbourToFavorite(event.neighbour);
-            favoriteButton.setBackgroundTintList((ColorStateList.valueOf(666666)));
-        }
-        else{
-            event.neighbour.setFavorite(false);
-            mApiService.deleteFromFavoriteList(event.neighbour);
-            favoriteButton.setBackgroundTintList(null);
-        }
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-
 }

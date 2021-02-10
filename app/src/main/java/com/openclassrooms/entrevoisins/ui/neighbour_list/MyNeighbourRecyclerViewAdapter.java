@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
@@ -23,15 +22,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.app.PendingIntent.getActivity;
-
 public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
 
     private final List<Neighbour> mNeighbours;
+    private Boolean favoriteList;
+    protected static final String positionString = "POSITION";
+    protected static final String favoriteString = "FAVORITE";
 
-
-    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
+    /** constructor
+        - init the neighbour list
+        - check if the demand come from the favorite fragment or the regular fragment
+     */
+    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items, Boolean favoriteList) {
         mNeighbours = items;
+        this.favoriteList = favoriteList;
     }
 
     @Override
@@ -61,9 +65,8 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
             @Override
             public void onClick(View view) {
                 Intent toProfileIntent = new Intent(holder.itemView.getContext(), NeighbourProfile.class);
-                Neighbour neighbourProfile = mNeighbours.get(holder.getAdapterPosition());
-                neighbourProfile.setFacebookAddress("https://www.facebook.com/" + neighbourProfile.getName()+"/");
-                toProfileIntent.putExtra("NEIGHBOURPROFILE", neighbourProfile);
+                toProfileIntent.putExtra(positionString, holder.getAdapterPosition());
+                toProfileIntent.putExtra(favoriteString, favoriteList);
                 holder.itemView.getContext().startActivity(toProfileIntent);
             }
         });

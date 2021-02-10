@@ -30,7 +30,7 @@ public class Neighbour implements Serializable {
     private String facebookAddress;
 
     /** neighbour is or is not in the favorite list*/
-    private boolean favorite = false;
+    private boolean favorite;
 
 
 
@@ -41,13 +41,14 @@ public class Neighbour implements Serializable {
      * @param avatarUrl
      */
     public Neighbour(long id, String name, String avatarUrl, String address,
-                     String phoneNumber, String aboutMe) {
+                     String phoneNumber, String aboutMe, Boolean favorite) {
         this.id = id;
         this.name = name;
         this.avatarUrl = avatarUrl;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.aboutMe = aboutMe;
+        this.favorite = favorite;
     }
 
     public long getId() {

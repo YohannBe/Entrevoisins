@@ -18,6 +18,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 public class NeighbourProfileTest {
 
@@ -37,7 +38,12 @@ public class NeighbourProfileTest {
     @Test
     public void name_wrote_withSuccess() {
         String nameExpected = neighbour.getName();
-        onView(withId(R.id.contact_name_profile_textView)).check(matches(withText(nameExpected)));
+        onView(allOf(withId(R.id.contact_name_profile_textView), withText(nameExpected)));
+    }
+
+    @Test
+    public void profileActivityStartedWithSuccess(){
+        onView(withId(R.id.activity_profile)).check(matches(isDisplayed()));
     }
 
 }

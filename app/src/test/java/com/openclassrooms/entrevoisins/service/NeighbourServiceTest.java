@@ -11,8 +11,10 @@ import org.junit.runners.JUnit4;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test on Neighbour service
@@ -36,9 +38,17 @@ public class NeighbourServiceTest {
 
     @Test
     public void getFavoriteNeighboursWithSuccess() {
-        List<Neighbour> neighbours = service.getNeighboursFavorite();
-        List<Neighbour> expectedNeighbours = DummyNeighbourGenerator.DUMMY_FAVORITE_NEIGHBOURS;
-        assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedNeighbours.toArray()));
+        List<Neighbour> neighbours = service.getNeighbours();
+        List<Neighbour> neighboursFavorite = service.getNeighboursFavorite();
+
+        assertEquals(0, neighboursFavorite.size());
+        Neighbour neighbour = neighbours.get(0);
+        neighbour.setFavorite(true);
+
+        neighboursFavorite = service.getNeighboursFavorite();
+        assertEquals(1, neighboursFavorite.size());
+        assertTrue(neighboursFavorite.contains(neighbour));
+        assertTrue(neighbour.isFavorite());
     }
 
     @Test
